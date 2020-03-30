@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.oyf.dao.UserDao">
+    <sql id="selectAll">
+        select * from user
+    </sql>
+
+    <select id="findAll" resultType="user">
+      <include refid="selectAll"></include>
+    </select>
+
+    <select id="findByCondition" resultType="user" parameterType="user">
+        <include refid="selectAll"></include>
+      <where>
+          <if test="id != null">
+              and id = #{id}
+          </if>
+          <if test="name != null and name != ''">
+              and name = #{name}
+          </if>
+      </where>
+    </select>
+
+    <select id="findByids" resultType="user" parameterType="int">
+        <include refid="selectAll"></include>
+        <where>
+           <foreach collection="array" open="id in (" close=")" separator="," item="id">
+               #{id}
+           </foreach>
+        </where>
+    </select>
+
+</mapper>
